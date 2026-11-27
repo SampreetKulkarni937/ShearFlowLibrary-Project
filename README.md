@@ -40,86 +40,72 @@ The library follows the classical thin-walled assumptions of aircraft structural
 
 **Section properties.** With wall area $A_w$, optional boom areas $B_r$ at $(x_r,y_r)$ and centroidal coordinates $\xi=x-\bar{x}$, $\eta=y-\bar{y}$:
 
-$$
+```math
 \bar{x}=\frac{\int_A x\,dA+\sum_r B_r x_r}{A_w+\sum_r B_r},\qquad
 \bar{y}=\frac{\int_A y\,dA+\sum_r B_r y_r}{A_w+\sum_r B_r}
-$$
+```
 
-$$
+```math
 I_{xx}=\int_A \eta^2\,dA+\sum_r B_r\eta_r^2,\qquad
 I_{yy}=\int_A \xi^2\,dA+\sum_r B_r\xi_r^2,\qquad
 I_{xy}=\int_A \xi\eta\,dA+\sum_r B_r\xi_r\eta_r
-$$
+```
 
 **Basic shear flow.** For shear resultants $S_x$ and $S_y$, along a wall with coordinate $s$ measured from its start [1]:
 
-$$
+```math
 q_b(s)=q_{b,0}-k_x\left(\int_0^s t\,\xi\,ds+\sum_r B_r\xi_r\right)-k_y\left(\int_0^s t\,\eta\,ds+\sum_r B_r\eta_r\right)
-$$
+```
 
-$$
+```math
 k_x=\frac{S_x I_{xx}-S_y I_{xy}}{I_{xx}I_{yy}-I_{xy}^2},\qquad
 k_y=\frac{S_y I_{yy}-S_x I_{xy}}{I_{xx}I_{yy}-I_{xy}^2}
-$$
+```
 
 **Topology and redundant shear flows.** For a connected section graph with $V$ nodes and $E$ walls, the number of independent closed cells is the cyclomatic number
 
-$$
+```math
 N_c=E-V+1 .
-$$
+```
 
 Cutting the $N_c$ walls that are not in a spanning tree leaves an open, tree-shaped section on which the basic flow is defined. The wall shear flows are then
 
-$$
+```math
 \mathbf{q}=\mathbf{q}_b+\mathbf{C}\mathbf{q}_s,\qquad \mathbf{q}_s\in\mathbb{R}^{N_c},\qquad \mathbf{C}\in\{-1,0,1\}^{E\times N_c}
-$$
+```
 
 where $\mathbf{q}_s$ holds the redundant cell circulations and $\mathbf{C}$ is the edge–cell incidence matrix ( $+1$ / $-1$ when cell $R$ traverses wall $e$ along / against its stored direction, $0$ otherwise). All cells are positive counter-clockwise, so a shared wall carries $q_{s,R}-q_{s,S}$.
 
 **Compatibility and moment equilibrium.** Every cell has the same rate of twist [1]
 
-$$
+```math
 G\theta'=\frac{1}{2A_R}\oint_R \frac{q}{t}\,ds,\qquad R=1,\dots,N_c ,
-$$
+```
 
 which in matrix form reads
 
-$$
+```math
 \mathbf{D}=\mathbf{C}^{T}\mathbf{W}\mathbf{C},\quad
 \mathbf{W}=\mathrm{diag}\!\left(\frac{L_e}{t_e}\right),\quad
 \mathbf{B}=\mathbf{C}^{T}\mathbf{j},\quad
 j_e=\int_e \frac{q_b}{t}\,ds,\qquad
 \mathbf{D}\mathbf{q}_s+\mathbf{B}=2\mathbf{A}\,G\theta' .
-$$
+```
 
-Moment equilibrium about any reference point closes the bordered system:
+where $\mathbf{A}=(A_1,\dots,A_{N_c})^{T}$ holds the enclosed cell areas. Moment equilibrium about any reference point closes the system:
 
-$$
-2A^Tq_s=M_{\mathrm{load}}-M_{q_b}
-$$
+```math
+2\mathbf{A}^{T}\mathbf{q}_s=M_{\mathrm{load}}-M_{q_b},\qquad M_{q_b}=\sum_e\int_e p_e\,q_b\,ds
+```
 
-where
+where $p_e$ is the perpendicular distance from the reference point to wall $e$, and $M_{\mathrm{load}}$ is the moment of $S_x$, $S_y$ about the same point. Together these give the bordered system
 
-$$
-M_{q_b}=\sum_e\int_e p_e q_b\,ds
-$$
-$$
-\left[
-\begin{array}{cc}
-D & -2A\\
-2A & 0
-\end{array}
-\right]
-\begin{bmatrix}
-q_s\\
-G\theta'
-\end{bmatrix}
+```math
+\begin{bmatrix}\mathbf{D} & -2\mathbf{A}\\ 2\mathbf{A}^{T} & 0\end{bmatrix}
+\begin{Bmatrix}\mathbf{q}_s\\ G\theta'\end{Bmatrix}
 =
-\begin{bmatrix}
--B\\
-M_{\mathrm{load}}-M_{q_b}
-\end{bmatrix}
-$$
+\begin{Bmatrix}-\mathbf{B}\\ M_{\mathrm{load}}-M_{q_b}\end{Bmatrix}
+```
 
 of size $(N_c+1)\times(N_c+1)$. Because $\mathbf{D}$ is assembled from the incidence matrix, arbitrary cell adjacency is handled without a sequential cell arrangement. For an open section ($N_c=0$) the solution is simply $\mathbf{q}=\mathbf{q}_b$.
 
