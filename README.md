@@ -95,10 +95,19 @@ $$
 Moment equilibrium about any reference point, $2\mathbf{A}^{T}\mathbf{q}_s=M_{\text{load}}-M_{q_b}$ with $M_{q_b}=\sum_e\int_e p_e\,q_b\,ds$, closes the bordered system
 
 $$
-\begin{bmatrix}\mathbf{D} & -2\mathbf{A}\\ 2\mathbf{A}^{T} & 0\end{bmatrix}
-\begin{Bmatrix}\mathbf{q}_s\\ G\theta'\end{Bmatrix}
+\begin{bmatrix}
+\mathbf{D} & -2\mathbf{A}\\
+2\mathbf{A}^{T} & 0
+\end{bmatrix}
+\begin{Bmatrix}
+\mathbf{q}_s\\
+G\theta'
+\end{Bmatrix}
 =
-\begin{Bmatrix}-\mathbf{B}\\ M_{\text{load}}-M_{q_b}\end{Bmatrix}
+\begin{Bmatrix}
+-\mathbf{B}\\
+M_{\text{load}}-M_{q_b}
+\end{Bmatrix}
 $$
 
 of size $(N_c+1)\times(N_c+1)$. Because $\mathbf{D}$ is assembled from the incidence matrix, arbitrary cell adjacency is handled without a sequential cell arrangement. For an open section ($N_c=0$) the solution is simply $\mathbf{q}=\mathbf{q}_b$.
